@@ -1,4 +1,4 @@
-package com.example.springboot1;
+package com.example.springboot1.data;
 
 public class Product {
 
@@ -9,6 +9,10 @@ public class Product {
     public Product(long id, String title, int cost) {
         this.id = id;
         this.title = title;
+        this.cost = cost;
+    }
+
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
