@@ -1,30 +1,51 @@
 package com.example.springboot1.data;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
 
-    private long id;
-    private String title;
-    private int cost;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public Product(long id, String title, int cost) {
-        this.id = id;
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "cost")
+    private Integer cost;
+
+    public Product() {
+    }
+
+    public Product(String title, Integer cost) {
         this.title = title;
         this.cost = cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
+    public Long getId() {
+        return id;
     }
 
-    public long getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getCost() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getCost() {
         return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 }
