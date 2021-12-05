@@ -3,7 +3,6 @@ package com.example.springboot1.controllers;
 import com.example.springboot1.data.Product;
 import com.example.springboot1.exceptions.ProductNotFoundException;
 import com.example.springboot1.services.ProductService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,14 +23,27 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/products/over_min/{value}")
-    public List<Product> getAllProductsOverThanMinPrice(@PathVariable Integer value){
-        return productService.getAllProductsOverThanMinPrice(value);
+    @GetMapping("/products/set_param")
+    public Integer setParamRequest(@RequestParam Integer delta){
+        System.out.println(" delta = " + delta);
+        return productService.setCountParam(delta);
     }
 
-    @GetMapping("/products/less_max/{value}")
-    public List<Product> getAllProductsLessThanMaxPrice(@PathVariable Integer value){
-        return productService.getAllProductsLessThanMaxPrice(value);
+    @GetMapping("/products/param_request")
+    public Integer paramRequest(){
+        return productService.getCountParam();
+    }
+
+    @GetMapping("/products/new")
+    public Product addNewProduct(@RequestParam String title, @RequestParam Integer cost){
+        return productService.addNewProduct(title, cost);
+    }
+
+    @GetMapping("products/sort")
+    public List<Product> getAllProductsWithSort(@RequestParam(defaultValue = "0") Integer minCost, @RequestParam(defaultValue = "1000") Integer maxCost){
+        List<Product> products = productService.findByCostBetween(minCost, maxCost);
+        System.out.println("products = " + products.size());
+        return products;
     }
 
     @GetMapping("/products/cost_between")
@@ -46,8 +58,8 @@ public class ProductController {
                 -> new ProductNotFoundException("Product #" + id + " not found"));
     }
 
-    @GetMapping("/products/delete/{id}")
-    public void getAllProducts(@PathVariable Long id){
+    @GetMapping("/products/delete")
+    public void deleteProductById(@RequestParam Long id){
         productService.deleteProductById(id);
     }
 

@@ -15,7 +15,7 @@
 <body>
 
 <div class="container" ng-controller="indexController">
-    <h3>Список продуктов</h3>
+    <h3>Список товаров</h3>
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <tr>
             <td>ID</td>
@@ -38,6 +38,30 @@
         </tr>
         </tbody>
     </table>
+    <p></p>
+    <button class="btn btn-danger" ng-click="correctParam(-1)">Предыдущие 10</button>
+    <button class="btn btn-danger" ng-click="correctParam(1)">Следцющие 10</button>
+
+    <p></p>
+    <h3>Добавить новый товар</h3>
+    <form novalidate ng-submit="addNewProduct()">
+        <p></p>
+        <input class="form-control" type="text" placeholder="Название товара" ng-model="newProd.title">
+        <p></p>
+        <input class="form-control" type="text" placeholder="Стоимость" ng-model="newProd.cost">
+        <p></p>
+        <button type="submit" class="btn btn-primary">Внести в базу данных</button>
+    </form>
+
+    <p></p>
+    <h3>Сортировка по цене:</h3>
+    <form novalidate ng-submit="findAllWithSort()">
+        <p></p>
+        <input class="form-control" type="number" placeholder="Товары дороже чем:" ng-model="prod.minimalCost">
+        <p></p>
+        <input class="form-control" type="number" placeholder="Товары дешевле чем:" ng-model="prod.maximalCost">
+        <button type="submit" class="btn btn-primary">Найти</button>
+    </form>
 </div>
 </body>
 </html>
