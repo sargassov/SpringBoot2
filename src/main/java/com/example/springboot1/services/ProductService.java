@@ -27,7 +27,6 @@ public class ProductService {
                 || countParam == productsValue / 10 + 1 && productsValue % 10 != 0){
             countParam = 0;
         }
-        System.out.println("итоговый = " + countParam);
         return countParam;
     }
 

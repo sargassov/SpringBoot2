@@ -25,7 +25,6 @@ public class ProductController {
 
     @GetMapping("/products/set_param")
     public Integer setParamRequest(@RequestParam Integer delta){
-        System.out.println(" delta = " + delta);
         return productService.setCountParam(delta);
     }
 
