@@ -1,4 +1,6 @@
-package com.example.springboot1.data;
+package com.example.springboot1.entities;
+
+import com.example.springboot1.dto.ProductDto;
 
 import javax.persistence.*;
 
@@ -17,12 +19,21 @@ public class Product {
     @Column(name = "cost")
     private Integer cost;
 
+    @Column(name = "secret_info")
+    private String secretInfo;
+
     public Product() {
     }
 
     public Product(String title, Integer cost) {
         this.title = title;
         this.cost = cost;
+    }
+
+    public Product(ProductDto productDto) {
+        this.title = productDto.getTitle();
+        this.cost = productDto.getCost();
+        this.secretInfo = "some info";
     }
 
     public Long getId() {
@@ -47,5 +58,13 @@ public class Product {
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    public String getSecretInfo() {
+        return secretInfo;
+    }
+
+    public void setSecretInfo(String secretInfo) {
+        this.secretInfo = secretInfo;
     }
 }

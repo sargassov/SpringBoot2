@@ -1,88 +1,50 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:9090/market';
-    $scope.countParam;
+    const contextPath = 'http://localhost:9090/market/api/v1';
 
-    $scope.loadProducts = function () {
-        //$scope.backendParamRequest();
+
+    $scope.loadProducts = function (pageIndex = 1) {
         $http({
             url: contextPath + '/products',
-            method: 'GET'
-        }).then(function (response) {
-            $scope.productList = response.data;
-        });
-
-    };
-
-    $scope.correctParam = function (int) {
-        $http({
-            url: contextPath + '/products/set_param',
             method: 'GET',
             params: {
-                delta: int
+                //page: pageIndex,
+                title_part: $scope.filter ? $scope.filter.title_part : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null
             }
-        }).then(function (responce) {
-            $scope.countParam = responce.data;
-            $scope.loadProducts();
+        }).then(function (response) {
+            $scope.productList = response.data.content;
         });
     };
-
-    $scope.backendParamRequest = function () {
-        $http(contextPath + '/products/param_request')
-            .then(function (response) {
-                $scope.countParam = response.data;
-        });
-    }
 
     $scope.deleteProduct = function (Id) {
-        $http({
-            url: contextPath + '/products/delete',
-            method: 'GET',
-            params: {
-                id: Id
-            }
-        }).then(function (response) {
-            $scope.loadProducts();
-        });
+        $http.delete(contextPath + '/products/' + Id)
+            .then(function (response) {
+                $scope.loadProducts();
+            });
     }
 
-    $scope.findAllWithSort = function () {
-        $http({
-            url: contextPath + '/products/sort',
-            method: 'GET',
-            params: {
-                minCost: $scope.prod.minimalCost,
-                maxCost: $scope.prod.maximalCost
-            }
-        }).then(function (response) {
-            $scope.productList = response.data;
-        });
+    $scope.createProduct = function () {
+        $http.post(contextPath + '/products', $scope.newProduct)
+            .then(function (response) {
+                $scope.loadProducts();
+            });
     }
-
-    $scope.changeCost = function (id, delta) {
-        $http({
-            url: contextPath + '/products/change_cost',
-            method: 'GET',
-            params: {
-                id:id,
-                delta: delta
-            }
-        }).then(function (response) {
-            $scope.loadProducts();
-        });
-    }
-
-    $scope.addNewProduct = function () {
-        $http({
-            url: contextPath + '/products/new',
-            method: 'GET',
-            params: {
-                title:$scope.newProd.title,
-                cost: $scope.newProd.cost
-            }
-        }).then(function (response) {
-            $scope.loadProducts();
-        });
-    }
+    //
+    // $scope.sumTwoNumbers = function () {
+    //     console.log($scope.calcAdd);
+    //     $http({
+    //         url: contextPath + '/calc/add',
+    //         method: 'get',
+    //         params: {
+    //             a: $scope.calcAdd.a,
+    //             b: $scope.calcAdd.b
+    //         }
+    //     }).then(function (response) {
+    //         alert('Сумма равна ' + response.data.value);
+    //         $scope.calcAdd.a = 10000;
+    //     });
+    // }
 
     $scope.loadProducts();
 });
