@@ -1,0 +1,22 @@
+create table products (id bigserial, title varchar(255), cost int, secret_info varchar(255), primary key (id));
+insert into products (title, cost, secret_info)
+values ('bread', 39, 'some info'),
+       ('butter', 139, 'some info'),
+       ('milk', 59, 'some info'),
+       ('vine', 639, 'some info'),
+       ('caviar', 589, 'some info'),
+       ('umbrella', 1100, 'some info'),
+       ('potatoes', 39, 'some info'),
+       ('sugar', 89, 'some info'),
+       ('ice cream', 49, 'some info'),
+       ('tomatoes', 189, 'some info'),
+       ('cherry', 444, 'some info'),
+       ('meat', 639, 'some info'),
+       ('mineral water', 29, 'some info'),
+       ('onion', 28, 'some info'),
+       ('mushrooms', 152, 'some info'),
+       ('oil', 95, 'some info'),
+       ('cheesr', 114, 'some info'),
+       ('chocolate', 79, 'some info'),
+       ('tea', 119, 'some info'),
+       ('ketchup', 74, 'some info');
