@@ -17,6 +17,57 @@
 <body>
 
 <div class="container" ng-controller="indexController">
+
+    <h3>Товары:</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td>Операция</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="p in productList">
+            <td>{{p.id}}</td>
+            <td>{{p.title}}</td>
+            <td>{{p.cost}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="addProductToCart(p.id)">++</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Корзина:</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ID</td>
+            <td>Название</td>
+            <td>Цена</td>
+            <td>Количество</td>
+            <td>Операция</td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="el in cartList">
+            <td>{{el.id}}</td>
+            <td>{{el.title}}</td>
+            <td>{{el.cost}}</td>
+            <td>{{el.quantity}}</td>
+            <td>
+                <button class="btn btn-danger" ng-click="deleteProductFromCart(el.id)">--</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+
+    <h3>Фильтр:</h3>
     <form novalidate ng-submit="loadProducts()">
         <div class="form-floating input-group-sm">
             <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
@@ -36,25 +87,7 @@
         <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Найти</button>
     </form>
 
-    <h3>Товары:</h3>
-    <table class="table table-hover">
-        <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Цена</td>
-            <td>Операция</td>
-        </tr>
-        <tbody>
-        <tr ng-repeat="p in productList">
-            <td>{{p.id}}</td>
-            <td>{{p.title}}</td>
-            <td>{{p.cost}}</td>
-            <td>
-                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
 
     <p></p>
     <h3>Внести товар в базу данных</h3>

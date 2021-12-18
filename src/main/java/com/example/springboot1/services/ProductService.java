@@ -1,5 +1,6 @@
 package com.example.springboot1.services;
 
+import com.example.springboot1.converters.ProductConverter;
 import com.example.springboot1.dto.ProductDto;
 import com.example.springboot1.entities.Product;
 import com.example.springboot1.exceptions.ProductNotFoundException;
@@ -18,9 +19,11 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private ProductRepository productRepository;
+    public ProductConverter productConverter;
 
-    public ProductService(ProductRepository productR){
+    public ProductService(ProductRepository productR, ProductConverter productC){
         this.productRepository = productR;
+        this.productConverter = productC;
     }
 
     public Page<Product> getAllProducts(Integer page, Integer minPrice, Integer maxPrice, String titlePart){
@@ -38,6 +41,10 @@ public class ProductService {
         return productRepository.findAll(specification, PageRequest.of(page - 1, 10));
     }
 
+    public List<Product> getAllProductsToCompare(){
+        return productRepository.findAll();
+    }
+
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
@@ -47,76 +54,16 @@ public class ProductService {
     }
 
     public ProductDto addNewProduct(ProductDto dto) {
-        return new ProductDto(productRepository.save(new Product(dto)));
+        Product p = productRepository.save(productConverter.productDtoToProduct(dto));
+        p.setId(null);
+        return productConverter.productToProductDto(p);
     }
 
     public ProductDto updateProduct(ProductDto dto) {
         Product p = new Product();
         p.setCost(dto.getCost());
         p.setTitle(dto.getTitle());
-        return new ProductDto(productRepository.save(p));
+        return productConverter.productToProductDto(productRepository.save(p));
     }
 
-//    public Integer setCountParam(Integer delta) {
-//        int productsValue = productRepository.findAll().size();
-//        countParam += delta;
-//
-//        if(countParam < 0){
-//            if(productsValue % 10 == 0) countParam = productsValue / 10 - 1;
-//            else countParam = productsValue / 10;
-//        }
-//        else if((countParam == productsValue / 10 && productsValue % 10 == 0)
-//                || countParam == productsValue / 10 + 1 && productsValue % 10 != 0){
-//            countParam = 0;
-//        }
-//        return countParam;
-//    }
-//
-//    public Integer getCountParam() {
-//        return countParam;
-//    }
-//
-//    public ProductService(ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//        countParam = 0;
-//    }
-//
-//    @Transactional
-//    public List<Product> getAllProducts() {
-//        List<Product> allProducts = productRepository.findAll();
-//        return selectionForTen(allProducts);
-//    }
-//
-//    private List<Product> selectionForTen(List<Product> allProducts) {
-//        List<Product> answer = new ArrayList<>();
-//        for(int x = countParam * 10; x < countParam * 10 + 10; x++){
-//            if(x == allProducts.size()) break;
-//            answer.add(allProducts.get(x));
-//        }
-//        return answer;
-//    }
-//
-//    public Optional<Product> getProductById(Long id) {
-//        return productRepository.findById(id);
-//    }
-//
-//    public void deleteProductById(Long id) {
-//        productRepository.deleteById(id);
-//    }
-//
-//    @Transactional
-//    public void changeCostById(Long id, Integer delta) {
-//        Product p = productRepository.findById(id).orElseThrow(()
-//                -> new ProductNotFoundException("Impossible to change cost of product #" + id + ". It not found"));
-//        p.setCost(p.getCost() + delta);
-//    }
-//
-//    public List<Product> findByCostBetween(Integer min, Integer max) {
-//        List<Product> sortedProducts = productRepository.findAllByCostBetween(min, max);
-//        return selectionForTen(sortedProducts);
-//    }
-//
-//    public Product addNewProduct(String title, Integer cost) {
-//        return productRepository.save(new Product(title, cost));
-//    }
 }

@@ -19,9 +19,6 @@ public class Product {
     @Column(name = "cost")
     private Integer cost;
 
-    @Column(name = "secret_info")
-    private String secretInfo;
-
     public Product() {
     }
 
@@ -33,7 +30,6 @@ public class Product {
     public Product(ProductDto productDto) {
         this.title = productDto.getTitle();
         this.cost = productDto.getCost();
-        this.secretInfo = "some info";
     }
 
     public Long getId() {
@@ -58,13 +54,5 @@ public class Product {
 
     public void setCost(Integer cost) {
         this.cost = cost;
-    }
-
-    public String getSecretInfo() {
-        return secretInfo;
-    }
-
-    public void setSecretInfo(String secretInfo) {
-        this.secretInfo = secretInfo;
     }
 }

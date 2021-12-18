@@ -1,6 +1,12 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
     const contextPath = 'http://localhost:9090/market/api/v1';
 
+    $scope.loadProductsFromCart = function () {
+        $http.get(contextPath + '/carts')
+            .then(function (response) {
+                $scope.cartList = response.data.content;
+            });
+    };
 
     $scope.loadProducts = function (pageIndex = 1) {
         $http({
@@ -17,6 +23,30 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     };
 
+    $scope.addProductToCart = function (id) {
+        $http.get(contextPath + '/carts/' + id)
+            .then(function () {
+                // $scope.loadProducts();
+                $scope.loadProductsFromCart();
+            });
+    };
+
+    $scope.deleteOneProductFromCart = function (Id) {
+        $http.delete(contextPath + '/carts/' + Id)
+            .then(function () {
+                // $scope.loadProducts();
+                $scope.loadProductsFromCart();
+            });
+    };
+
+    $scope.deleteAllProductFromCart = function () {
+        $http.delete(contextPath + '/carts')
+            .then(function (response) {
+                // $scope.loadProducts();
+                $scope.loadProductsFromCart();
+            });
+    };
+
     $scope.deleteProduct = function (Id) {
         $http.delete(contextPath + '/products/' + Id)
             .then(function (response) {
@@ -30,21 +60,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 $scope.loadProducts();
             });
     }
-    //
-    // $scope.sumTwoNumbers = function () {
-    //     console.log($scope.calcAdd);
-    //     $http({
-    //         url: contextPath + '/calc/add',
-    //         method: 'get',
-    //         params: {
-    //             a: $scope.calcAdd.a,
-    //             b: $scope.calcAdd.b
-    //         }
-    //     }).then(function (response) {
-    //         alert('Сумма равна ' + response.data.value);
-    //         $scope.calcAdd.a = 10000;
-    //     });
-    // }
 
     $scope.loadProducts();
+    $scope.loadProductsFromCart();
 });
